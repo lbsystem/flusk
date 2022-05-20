@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.js"></script>
+</head>
+
+<body>
+
+<label for="">input</label><input type="text" name="name" id="inp1"   >
+<input type="text" id="inp2">
+<input type="button" id="btn1"  value="input">
+<input type="file" id="fileinput">
+
+
+
+
+</body>
+<script type="text/javascript">
+    btn1=document.querySelector("#btn1")
+    btn1.addEventListener("click",ajax)
+
+
+
+    var formData= new FormData()
+
+    function ajax(){
+        file=fileinput.files[0]
+        {#console.log(file)#}
+        var inp1_val=$("#inp1").val()
+        var inp2_val=$("#inp2").val()
+        csrfmiddlewaretoken='{{ csrf_token }}'
+        formData.append("name",inp1_val)
+        formData.append("age",inp2_val)
+        formData.append("csrfmiddlewaretoken",csrfmiddlewaretoken)
+        formData.append('file',file)
+        $.ajax({
+            url:'/',
+            type:"post",
+            data:formData,
+            cache: false,
+            processData: false,
+            contentType: false,
+        }).then(res=>{
+            console.log(res)
+            console.log(typeof(res))
+            let hhh=document.createElement('h1')
+            hhh.innerHTML=res.name
+            document.body.appendChild(hhh)
+
+        })
+
+    }
+
+
+
+    function upload(){
+        file=fileinput.files[0]
+        console.log(file)
+        var inp1_val=$("#inp1").val()
+        var inp2_val=$("#inp2").val()
+        formData.append("name",inp1_val)
+        formData.append("age",inp2_val)
+        formData.append('file',file)
+        fetch("/",{
+            method:"post",
+            body:formData
+        }).then((res)=> res.text()
+
+        ).then((res1)=>{
+            console.log("http",res1)
+        })
+        console.log( inp1_val )
+
+    }
+
+
+</script>
+</html>

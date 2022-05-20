@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+<input type="file" id="input"  name="a1">
+<button id="btn1">上传</button>
+</body>
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.js"></script>
+<script>
+    btn1.addEventListener('click',upload)
+    index1=0;
+    function upload(){
+        //获取input 的文件
+        const file = input.files[0];
+        let chunkSzie=3500*3500;
+        let start=index1*chunkSzie
+        //file 切片
+        index1++;
+        const blob= file.slice(start,start+chunkSzie);
+        // file.text().then(res=>{
+        //     console.log(res)
+        // })
+        //计算分片数量
+        totalChunk=Math.ceil(file.size/chunkSzie)
+        console.log(totalChunk)
+        if (index1>totalChunk){
+            $.ajax({
+                url:'/upload/',
+                type:"post",
+                data: {
+                    filename:file.name,
+                    status:"end"
+                }
+            }).then(res=>{
+                console.log(res)
+            })
+            index1=0;
+            return}
+        console.log("filesize:",totalChunk)
+
+        const blobName = `${file.name}.${index1}`
+        const blobFlie=new File([blob],blobName)
+        const formData= new FormData();
+        //把file 转为formData 对象 file2 发送变量名 blobFile 为发送的问题就
+        formData.append('file2',blobFlie)
+        fetch('/',{
+            method:"post",
+            body: formData,
+            name:'a1'
+        }).then((res)=>{
+            console.log(res)
+            upload()
+        })
+
+
+        //ajax 上传
+        /*
+        $.ajax({
+            url:'/upload/',
+            type:"post",
+            data: formData,
+            cache: false,
+            processData: false,
+            contentType: false,
+        }).then(res=>{
+            console.log(res)
+        })
+
+
+         */
+    }
+</script>

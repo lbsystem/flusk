@@ -1,3 +1,5 @@
+import json
+
 from flask import Flask, request, render_template, jsonify
 from pymongo import MongoClient
 from Crypto.Cipher import AES
@@ -13,7 +15,7 @@ def en_aes(data):
 
     key=b"1111111111111111"
     aes=AES.new(key=key,IV=b'1111111111111111',mode=AES.MODE_CBC)
-    daes=AES.new(key=key,IV=b'1111111111111111',mode=AES.MODE_CBC)
+
     data=data
     data=pad(data.encode(),16,style='pkcs7')
 
@@ -45,9 +47,10 @@ def index():
     item = {}
     item['name'] = "lb"
     item['age'] = 18
+    item['all'] = 'sdfasdggasdgasdgaserwerwq'
     if request.method == "GET":
 
-        return render_template("index.html")
+        return render_template('index.html')
     else:
         res = request.form.to_dict()
         print(res)
@@ -59,9 +62,9 @@ def index():
             print("confire")
         print(data)
         # res = collections.find_one({'code': res['src']}, {"_id": 0})
-        item['encode']=en_aes("pppppp")
+        item['encode']=en_aes(json.dumps(item))
         print(item['encode'])
-
+        print(hashlib.sha256("pp2323pppp".encode()).hexdigest())
         return jsonify(item)
         # if request.files:
         #     file=request.files["file"]

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .test{
+            width: 600px;
+            height: 600px;
+            background-color: #2e6da4;
+        }
+    </style>
+</head>
+<link rel="stylesheet" href="/static/css/bootstrap.css">
+<script src="/static/js/jquery-3.6.0.js"></script>
+<body style="height: 2000px">
+<nav class="navbar navbar-default navbar-fixed-top" >
+    <div class="container">
+        ...
+    </div>
+</nav>
+    <div class="container-fluid" style="margin-top: 55px">
+
+        <div class="col-sm-8">左边
+            <div class="panel panel-default">
+                <div class="panel-heading">Panel heading without title</div>
+                <div class="panel-body">
+                    <form action="">
+                        <input type="text" name="kk" id="inp1">
+                        <input type="button" value="put" style="margin-bottom: 10px" id="sub1">
+                    </form>
+                    <img  alt="" id="img_1">
+                        <h1 id="h1_1"></h1>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3">右边
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Panel title</h3>
+                </div>
+                <div class="panel-body">
+                    Panel content
+                </div>
+            </div>
+
+        </div>
+    </div>
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
+<script>
+    function encode(data){
+        var str=data
+        var key  = "1111111111111111"
+        var iv = "1111111111111111"
+
+        key=CryptoJS.enc.Utf8.parse(key)
+        iv=CryptoJS.enc.Utf8.parse(iv)
+        var enctxt=CryptoJS.AES.encrypt(str,key,{
+            iv:iv,
+            mode:CryptoJS.mode.CBC,
+            padding:CryptoJS.pad.Pkcs7
+        });
+        console.log("toString",enctxt.toString())
+        return enctxt.toString()
+    }
+    function de_aes(data){
+        console.log(typeof (data))
+        {#let data1=CryptoJS.enc.Hex.parse(data)#}
+        let str2=CryptoJS.enc.Base64.parse(data)
+
+        {#data1 =CryptoJS.enc.Base64.stringify(data1)#}
+        console.log("data",str2)
+
+        let str=str2
+        let key  = "1111111111111111"
+        let iv = "1111111111111111"
+
+        key=CryptoJS.enc.Utf8.parse(key)
+        iv=CryptoJS.enc.Utf8.parse(iv)
+        let de_enctxt=CryptoJS.AES.decrypt(str,key,{
+           iv:iv,
+           mode:CryptoJS.mode.CBC,
+           padding:CryptoJS.pad.Pkcs7
+        }
+        );
+        let str5=de_enctxt.toString()
+        console.log("de..........",str5.toString())
+    }
+
+
+    let put1= function put(){
+        let name=$('#inp1').val()
+        let formData= new FormData()
+
+        let hash=sha1(name)
+        name=encode(name)
+
+        formData.append("src",name)
+        formData.append("hash",hash)
+
+        fetch("/",{
+            method:"post",
+            body:formData
+        }).then((res)=>res.json()
+
+
+        ).then(res=>
+
+                dis(res)
+
+        )
+    }
+
+    $('#sub1').click(put1)
+
+    console.log($('#img_1').attr('src',"/static/img/AKID-042.jpg"))
+    function dis(res){
+        $('#img_1').attr('src',`/static/img/${res.code}.jpg`)
+        $('#h1_1').text(res.code)
+          de_aes(res.encode)
+    }
+
+</script>
+<script src="https://cdn.bootcss.com/js-sha1/0.6.0/sha1.js"></script>
+<script type="text/javascript">
+
+    var sha1_1 = sha1("123abc",);
+    console.log(sha1_1);
+    var sha1_2 = sha1("admin:1001");
+    console.log(sha1_2);
+</script>
+
+<script type="text/javascript">
+    var escape1 =escape("我的名字是：陈厚伯");//编码
+    console.log(escape1);
+    var unescape1 = unescape(escape1); //解码
+    console.log(unescape1.toString());
+</script>
+
+
+
+</html>

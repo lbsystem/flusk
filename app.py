@@ -1,12 +1,15 @@
-import json
+import json,os
 
-from flask import Flask, request, render_template, jsonify
+from flask import Flask, request, render_template, jsonify,make_response,session
 from pymongo import MongoClient
 from Crypto.Cipher import AES
 from Crypto.Util.Padding import unpad
 from Crypto.Util.Padding import pad
 import base64
 import hashlib
+
+SECRET_KEY='fasdfasdqwrqwe'
+
 client = MongoClient(host="192.168.1.32", port=27017)
 collections = client["javbus"]["company"]
 
@@ -41,7 +44,7 @@ app = Flask(__name__)
 
 print(__name__)
 
-
+app.config['SECRET_KEY']="dadasfgafdaf"
 @app.route("/", methods=["GET", "POST"])
 def index():
     item = {}
@@ -49,8 +52,13 @@ def index():
     item['age'] = 18
     item['all'] = 'sdfasdggasdgasdgaserwerwq'
     if request.method == "GET":
+        session["session"]="test session"
+        response=make_response(render_template('index.html'))
+        response.set_cookie("name","lbsystem")
 
-        return render_template('index.html')
+
+
+        return response
     else:
         res = request.form.to_dict()
         print(res)
@@ -82,6 +90,30 @@ def index():
         #     print("data")
         #     print(request.data)
         #
+
+# @app.after_request
+# def check():
+#     print(Response.headers)
+
+
+@app.route("/test")
+def test():
+    return render_template('testscroll.html')
+
+@app.route("/img",methods=['POST'])
+def get_img():
+    # res = collections.find_one({}, {"code":1,"_id": 0})
+    res=os.listdir('./static/img')
+    return jsonify(res)
+
+@app.route("/js")
+def js():
+    return render_template('js.html')
+
+
+
+
+
 
 
 if __name__ == '__main__':

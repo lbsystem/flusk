@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="/static/js/jquery-3.6.0.js"></script>
+    <link rel="stylesheet" href="/static/css/bootstrap.css">
+</head>
+<body style="height: 1500px">
+<div class="jumbotron" style="width: 90%;margin-left: auto;margin-right: auto">
+    <h1>Hello, world!</h1>
+    <p>...</p>
+    <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p>
+</div>
+<div class="container" id="div1">
+    <button class="btn-success" style="width: 70px" onclick="get_img()">get</button>
+    <p></p>
+    <img src="/static/img/25ID-043.jpg" alt="" id="img1">
+</div>
+</body>
+<script>
+    let imgs
+    function get_img(){
+        fetch("/img",{
+            method:"post",
+
+        }).then((res)=>res.json()
+
+
+        ).then(res=>
+
+            imgs=res
+
+
+        ).then(res=>
+        load()
+        )
+    }
+let start=0
+let end=12
+let p=0
+
+
+
+
+
+    function add_img(res) {
+
+        for (let i of res.slice(start,end)) {
+            let path = `/static/img/${i}`
+            let img = $(`<img src=${path} alt="">`)
+            $('#div1').append(img)
+        }
+        let h1=$(`<h1>end</h1>`)
+
+            $('#div1').append(h1)
+
+    }
+
+    function load(){
+    $(window).scroll(function() {
+        var scrollTop = $(this).scrollTop();
+        var scrollHeight = $(document).height();
+        var windowHeight = $(this).height();
+        console.log(scrollHeight)
+        if (scrollTop + windowHeight === scrollHeight) {
+
+
+            if (p < 6) {
+                add_img(imgs)
+                p++
+            }
+
+
+        }
+    })
+}
+
+
+
+
+</script>
+</html>

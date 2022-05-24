@@ -6,6 +6,7 @@
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$">
       <excludeFolder url="file://$MODULE_DIR$/static/img" />
+      <excludeFolder url="file://$MODULE_DIR$/static/video" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
@@ -13,6 +14,7 @@
     <orderEntry type="library" name="crypto-js" level="application" />
     <orderEntry type="library" name="crypto-js" level="application" />
     <orderEntry type="library" name="sha1" level="application" />
+    <orderEntry type="library" name="video.js" level="application" />
   </component>
   <component name="TemplatesService">
     <option name="TEMPLATE_CONFIGURATION" value="Jinja2" />

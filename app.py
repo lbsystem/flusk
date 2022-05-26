@@ -7,6 +7,8 @@ from Crypto.Util.Padding import unpad
 from Crypto.Util.Padding import pad
 import base64
 import hashlib
+from Crypto.Cipher import PKCS1_v1_5 as PKCS1_cipher
+from Crypto.PublicKey import RSA
 
 SECRET_KEY = 'fasdfasdqwrqwe'
 
@@ -111,7 +113,17 @@ def js():
     return render_template('js.html')
 
 
-@app.route("/ajax", methods=["GET", "POST"])
+@app.route("/path/<test>.m3u")
+def path(test):
+    res=request.args
+    print(res)
+    print(test)
+    return "ok"
+@app.route("/url/url")
+def url():
+    return render_template('url.html')
+
+@app.route("/ajax", methods=["GET", "POST","TRACE","OPTION"])
 def ajax():
     resp = make_response(send_from_directory(path="./static/video/a.mkv",directory='./static/video',filename="a.mkv",as_attachment=True))
     # resp =make_response("fasdfas")
@@ -119,8 +131,16 @@ def ajax():
     resp.headers['Access-Control-Allow-Methods'] = 'GET,POST'
     resp.headers['Access-Control-Allow-Headers'] = 'x-requested-with,content-type'
     resp.headers["Content-Disposition"]="attachment;filename=FileName.mkv"
+    print(request.headers)
     print(request.form.to_dict())
+    p_key='MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC8JU1nBDZ5PgRNAxksTC/MlaBX37vjTH84ppzmuEpH7e6G43QXd7Zof8apIJ4efk6Uiw2/OJfkyMGDsAJTv/zWnuKm6UeyBYxtgP5JFGtTMKTBVuGzH8UzYWdPzybIOCmj55Qku3nYEZyro38dGhSFLSPaU3eoY1tblm5ZFJ+8ewIDAQAB  '
+
+    # key = RSA.importKey(p_key)
+    # key = PKCS1_cipher.new(p_key)
+    # print(key)
     return resp
+
+
 
 # if __name__ == '__main__':
 #     app.run(host='0.0.0.0',port=81)

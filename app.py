@@ -1,6 +1,6 @@
 import json, os
 
-from flask import Flask, request, render_template, jsonify, make_response, session,send_from_directory
+from flask import Flask, request, render_template, jsonify, make_response, session,send_from_directory,current_app
 from pymongo import MongoClient
 from Crypto.Cipher import AES
 from Crypto.Util.Padding import unpad
@@ -53,6 +53,7 @@ def index():
     item['name'] = "lb"
     item['age'] = 18
     item['all'] = 'sdfasdggasdgasdgaserwerwq'
+    
     if request.method == "GET":
         session["session"] = "test session"
         response = make_response(render_template('index.html'))
@@ -98,6 +99,7 @@ def index():
 
 @app.route("/test")
 def test():
+    print(request.headers['User-Agent'])
     return render_template('testscroll.html')
 
 

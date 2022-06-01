@@ -1,17 +1,21 @@
 #!/usr/bin/python3
 import os
 
-l=[12,2,3,4,66,3,22,8]
+import asyncio,time
+k=0
+async def test():
+    global k
+    while True:
+        await asyncio.sleep(2)
+        k+=1
+async def test1():
+    while True:
+        await asyncio.sleep(0.5)
+        print(k)
 
-d=dict(
-    a=6,
-    b=9,
-    c=10,
-    d=3,
-    e=7,
-    f=8
-)
-print(os.path.abspath("/static/video"))
 
-result=filter(lambda x:x>8,d.values())
-print(list(result))
+loop=asyncio.new_event_loop()
+task=loop.create_task(test())
+task1=loop.create_task(test1())
+tasks=[task1,task]
+loop.run_until_complete(asyncio.wait(tasks))

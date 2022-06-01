@@ -11,6 +11,7 @@ import hashlib
 
 from flask_session import Session
 from config import Config,app
+from form import  RegisterForm
 
 from Crypto.Cipher import PKCS1_v1_5 as PKCS1_cipher
 from Crypto.PublicKey import RSA
@@ -109,6 +110,10 @@ def index():
 def boot():
     return render_template('01bootstrap.html')
 
+@app.route("/register",methods=["GET","POST"])
+def register():
+    form=RegisterForm()
+    return render_template("01bootstrap.html",form=form)
 
 @app.route("/test")
 def test():

@@ -1,7 +1,9 @@
 {% extends "02bootlay.html"%}
 
 {% block content %}
+
     <div class="col-sm-8 col-sm-offset-1">
-<h1>fgsdfgsdfg</h1>
+        {% import 'bootstrap/wtf.html' as wtf %}
+    {{ wtf.quick_form(form) }}
     </div>
 {% endblock %}

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.js"></script>
+</head>
+<body>
+
+</body>
+<script>
+    let form1 = new FormData()
+    form1.append("name",'form')
+    form1.append("age",8888)
+    function start(){
+    $.ajax({
+        url:"http://192.168.2.35:82/ajax",
+        type:"post",
+        // dataType: "json",
+        // data:JSON.stringify({"name":"yd","pwd":"123456"}),
+        data:form1,
+        cache: false,
+        processData: false,
+        contentType: false,
+
+        success:res=>{
+            console.log(res)
+        }
+    })}
+    start()
+
+</script>
+</html>

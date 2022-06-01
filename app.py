@@ -1,16 +1,22 @@
 import json, os
 
-from flask import Flask, request, render_template, jsonify, make_response, session,send_from_directory,current_app
+from flask_bootstrap import Bootstrap
+from flask import Flask, request, render_template, jsonify, make_response, session, send_from_directory, current_app
 from pymongo import MongoClient
 from Crypto.Cipher import AES
 from Crypto.Util.Padding import unpad
 from Crypto.Util.Padding import pad
 import base64
 import hashlib
+
+from flask_session import Session
+from config import Config
+
 from Crypto.Cipher import PKCS1_v1_5 as PKCS1_cipher
 from Crypto.PublicKey import RSA
 
-SECRET_KEY = 'fasdfasdqwrqwe'
+app = Flask(__name__)
+app.config.from_object(Config)
 
 client = MongoClient(host="192.168.1.32", port=27017)
 collections = client["javbus"]["company"]
@@ -40,11 +46,14 @@ def aes_decrypt(data):
     return data
 
 
-app = Flask(__name__)
+Session(app)
+bootstrap = Bootstrap(app)
 
-print(__name__)
 
-app.config['SECRET_KEY'] = "dadasfgafdaf"
+@app.route("/sess", methods=["GET", "POST"])
+def sess():
+    session["user"] = "test"
+    return "session"
 
 
 @app.route("/", methods=["GET", "POST"])
@@ -53,11 +62,11 @@ def index():
     item['name'] = "lb"
     item['age'] = 18
     item['all'] = 'sdfasdggasdgasdgaserwerwq'
-    
+
     if request.method == "GET":
         session["session"] = "test session"
         response = make_response(render_template('index.html'))
-        response.set_cookie("name", "lbsystem")
+        # response.set_cookie("name", "lbsystem")
 
         return response
     else:
@@ -96,6 +105,10 @@ def index():
 # def check():
 #     print(Response.headers)
 
+@app.route("/boot")
+def boot():
+    return render_template('01bootstrap.html')
+
 
 @app.route("/test")
 def test():
@@ -117,25 +130,37 @@ def js():
 
 @app.route("/path/<test>.m3u")
 def path(test):
-    res=request.args
+    res = request.args
     print(res)
     print(test)
     return "ok"
+
+
 @app.route("/url/url")
 def url():
     return render_template('url.html')
 
-@app.route("/ajax", methods=["GET", "POST","TRACE","OPTION"])
+
+# @app.route('/re/<re(r".*"):url>', methods=['GET', 'POST'])
+# def retest(url):
+#     return url
+
+
+@app.route("/ajax", methods=["GET", "POST", "TRACE", "OPTION"])
 def ajax():
-    resp = make_response(send_from_directory(path="./static/video/a.mkv",directory='./static/video',filename="a.mkv",as_attachment=True))
+    # resp = make_response(send_from_directory(path="./static/video/a.mkv",directory='./static/video',filename="a.mkv",as_attachment=True))
+    data = dict(name="lbsystem", age=18)
+    resp = make_response(data)
     # resp =make_response("fasdfas")
     resp.headers['Access-Control-Allow-Origin'] = '*'
     resp.headers['Access-Control-Allow-Methods'] = 'GET,POST'
     resp.headers['Access-Control-Allow-Headers'] = 'x-requested-with,content-type'
-    resp.headers["Content-Disposition"]="attachment;filename=FileName.mkv"
+    resp.headers["Content-Disposition"] = "attachment;filename=FileName.mkv"
+    # resp.headers['Content-type']='application/json'
     print(request.headers)
+    # print(json.loads(request.data.decode()))
     print(request.form.to_dict())
-    p_key='MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC8JU1nBDZ5PgRNAxksTC/MlaBX37vjTH84ppzmuEpH7e6G43QXd7Zof8apIJ4efk6Uiw2/OJfkyMGDsAJTv/zWnuKm6UeyBYxtgP5JFGtTMKTBVuGzH8UzYWdPzybIOCmj55Qku3nYEZyro38dGhSFLSPaU3eoY1tblm5ZFJ+8ewIDAQAB  '
+    p_key = 'MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC8JU1nBDZ5PgRNAxksTC/MlaBX37vjTH84ppzmuEpH7e6G43QXd7Zof8apIJ4efk6Uiw2/OJfkyMGDsAJTv/zWnuKm6UeyBYxtgP5JFGtTMKTBVuGzH8UzYWdPzybIOCmj55Qku3nYEZyro38dGhSFLSPaU3eoY1tblm5ZFJ+8ewIDAQAB  '
 
     # key = RSA.importKey(p_key)
     # key = PKCS1_cipher.new(p_key)
@@ -143,6 +168,10 @@ def ajax():
     return resp
 
 
+@app.route('/<var>')
+def defualt(var):
+    return var
 
-# if __name__ == '__main__':
-#     app.run(host='0.0.0.0',port=81)
+
+if __name__ == '__main__':
+    app.run(debug=True)

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+<h1>1111</h1>
+<ul>
+    {% for k,v in users.items() %}
+    <li onclick="vote({{k}})" id="id_{{k}}">{{v.name}}<span>{{v.count}}</span></li>
+    {% endfor %}
+</ul>
+
+<script src="{{ url_for('static',filename='jquery-3.3.1.min.js')}}"></script>
+<script>
+    var ws = new WebSocket('ws://127.0.0.1:5001/message')
+    ws.onmessage = function (event) {
+        /* 服务器端向客户端发送数据时，自动执行 */
+        // {'cid':cid,'count':new}
+        var response = JSON.parse(event.data);
+        $('#id_'+response.cid).find('span').text(response.count);
+
+    };
+
+    function vote(cid) {
+        ws.send(cid)
+    }
+</script>
+</body>
+</html>

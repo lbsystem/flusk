@@ -1,5 +1,7 @@
 from redis import Redis
+from flask import Flask
 from werkzeug.routing import BaseConverter
+from flask_sqlalchemy import SQLAlchemy
 class RegexConverter(BaseConverter):
     """"""
 
@@ -19,4 +21,10 @@ class Config:
     re= RegexConverter
     SESSION_TYPE= 'redis'
     SESSION_REDIS = Redis(host='192.168.1.32', port=6379, db=7, password='p34mv160')
+    SQLALCHEMY_DATABASE_URI="sqlite:////sql/flask2.db"
+    SQLALCHEMY_TRACK_MODIFICATIONS=False
 
+
+app = Flask(__name__)
+app.config.from_object(Config)
+db=SQLAlchemy(app)

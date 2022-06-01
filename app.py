@@ -10,13 +10,13 @@ import base64
 import hashlib
 
 from flask_session import Session
-from config import Config
+from config import Config,app
 
 from Crypto.Cipher import PKCS1_v1_5 as PKCS1_cipher
 from Crypto.PublicKey import RSA
 
-app = Flask(__name__)
-app.config.from_object(Config)
+
+
 
 client = MongoClient(host="192.168.1.32", port=27017)
 collections = client["javbus"]["company"]

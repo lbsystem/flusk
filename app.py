@@ -1,7 +1,7 @@
 import json, os
 
 from flask_bootstrap import Bootstrap
-from flask import Flask, request, render_template, jsonify, make_response, session, send_from_directory, current_app
+from flask import Flask, request,flash, render_template, jsonify, make_response, session, send_from_directory, current_app
 from pymongo import MongoClient
 from Crypto.Cipher import AES
 from Crypto.Util.Padding import unpad
@@ -10,8 +10,9 @@ import base64
 import hashlib
 
 from flask_session import Session
-from config import Config,app
+from config import Config,app,bcrypt
 from form import  RegisterForm
+
 
 from Crypto.Cipher import PKCS1_v1_5 as PKCS1_cipher
 from Crypto.PublicKey import RSA
@@ -113,6 +114,15 @@ def boot():
 @app.route("/register",methods=["GET","POST"])
 def register():
     form=RegisterForm()
+
+    if form.validate_on_submit():
+        user=form.username.data
+        email=form.email.data
+        password=bcrypt.generate_password_hash(form.password.data)
+        print(user,email,password)
+        flash('Ok okoko', category='success')
+        flash('111111', category='success')
+
     return render_template("01bootstrap.html",form=form)
 
 @app.route("/test")

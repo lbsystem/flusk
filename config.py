@@ -2,6 +2,7 @@ from redis import Redis
 from flask import Flask
 from werkzeug.routing import BaseConverter
 from flask_sqlalchemy import SQLAlchemy
+from flask_bcrypt import Bcrypt
 
 
 class RegexConverter(BaseConverter):
@@ -21,6 +22,7 @@ class RegexConverter(BaseConverter):
 class Config:
     SECRET_KEY = "dadasfgafdaf"
     re= RegexConverter
+    RECAPTCHA_PUBLIC_KEY="fasdfasdfsadfasdfas"
     SESSION_TYPE= 'redis'
     SESSION_REDIS = Redis(host='192.168.1.32', port=6379, db=7, password='p34mv160')
     SQLALCHEMY_DATABASE_URI="sqlite:////sql/flask2.db"
@@ -30,3 +32,4 @@ class Config:
 app = Flask(__name__)
 app.config.from_object(Config)
 db=SQLAlchemy(app)
+bcrypt=Bcrypt(app)

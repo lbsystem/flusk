@@ -1,9 +1,30 @@
 {% extends "02bootlay.html"%}
 
+
 {% block content %}
 
     <div class="col-sm-8 col-sm-offset-1">
-        {% import 'bootstrap/wtf.html' as wtf %}
-    {{ wtf.quick_form(form) }}
+        {% for category,message in get_flashed_messages(with_categories=true) %}
+            <div class="alert-{{ category }}" >{{ message }}</div>
+        {% endfor %}
+    {{ wtf.quick_form(form,button_map={'submit':'primary'}) }}
+    <button class="btn-primary btn-lg" id="btn1">asdfasdfas</button>
     </div>
+
+{% endblock %}
+
+{% block  scripts %}
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.js"></script>
+    <script>
+        $("#btn1").click(()=>{
+           let formdata = $("form").serializeArray()
+            for(i of formdata){
+                console.log(i.name,i.value)
+            }
+
+            }
+        )
+
+    </script>
+
 {% endblock %}

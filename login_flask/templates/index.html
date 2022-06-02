@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
-{% block body %}
+  {% block content -%}
+      <input type="hidden" id="filesHidden" name="filesHidden" value="{{ hash }}"/>
     <div class="container" >
 
         <div class="col-xs-3">
@@ -17,7 +18,42 @@
                 {{ wtf.form_field(form.password2) }}
                 {{ wtf.form_field(form.email) }}
                 {{ wtf.form_field(form.submit) }}
+
             </form>
+            <button  class="btn-primary" id="btn1">testsubmit</button>>
         </div>
     </div>
+
+
+
 {% endblock %}
+
+{% block  scripts %}
+
+            <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
+
+       <script>
+           let hash_val = $("#filesHidden").val()
+        $("#btn1").click( res=>{
+        let data = $("form").serializeArray()
+            data[2].value=hash_val+data[2].value
+            console.log(data[2].value)
+            data[2].value=CryptoJS.SHA1(data[2].value).toString()
+            console.log(data[2].value)
+
+        $.ajax({
+            url:"/post",
+            type:"post",
+            data:{
+                    json1:JSON.stringify(data)
+            },
+            success:res=>{
+                console.log(res)
+            }
+        })
+    })
+
+    </script>
+{% endblock %}
+

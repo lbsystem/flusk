@@ -1,18 +1,22 @@
 {% extends 'bootstrap/base.html' %}
-{% block styles %}
-    <style>
-        .red{
-            color: red;
-        }
-        .bule{
-            color: blue;
-        }
-    </style>
-{% endblock %}
+
 
 {% block content %}
-<table border="1">
-    <tr>
+
+    <form action="" class="form-control">
+      <div class="col-sm-6">
+    <input type="text" id="datetime" />
+</div>
+    </form>
+
+    <var>y x fd</var>
+    <p class="text-center">Center aligned text.</p>
+    <div class="container-fluid">
+    <button class="btn-success">dfasdfas</button>
+    <h1>111</h1>
+    <div class="col-sm-6 col-sm-offset-1">
+<table class="table table-bordered table-striped table-hover">
+    <tr class="success">
     <th>name</th>
     <th>age</th>
     <th>love</th>
@@ -22,13 +26,32 @@
     <td>18</td>
     <td>python</td>
     </tr>
+    <tr>
+    <td>lbsystem</td>
+    <td>18</td>
+    <td>python</td>
+    </tr>
+      <tr>
+    <td>lbsystem</td>
+    <td>18</td>
+    <td>python</td>
+    </tr>
+      <tr>
+    <td>lbsystem</td>
+    <td>18</td>
+    <td>python</td>
+    </tr>
 </table>
     <button id="btn1">asdfasdfas</button>
+    </div>
+    <div class="clearfix"></div>
+
 {% if app_login %}
     <h1 class="red">11</h1>
     {% else %}
     <h1 style="color:blue ">11</h1>
     {% endif %}
+    </div>
 {% endblock %}
 
 {% block scripts %}
@@ -40,8 +63,33 @@
                 console.log("fasdf")
                 $("h1").toggleClass("bule")
             } )
+        </script>
 
 
-    </script>
+<!-- 时间选择器样式表 -->
+<link href="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+
+
+
+
+<!-- bootstrap脚本 -->
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<!-- 时间选择器前置脚本 -->
+<script src="https://cdn.bootcss.com/moment.js/2.22.1/moment-with-locales.min.js"></script>
+
+<!-- 时间选择器核心脚本 -->
+<script src="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+
+
+  <script>
+    $("#datetime").datetimepicker({
+        format: 'YYYY-MM-DD HH:MM',
+         locale: moment.locale('zh-CN')
+    });
+</script>
+
+
+<!-- https://blog.csdn.net/qq_31267183/article/details/82457883 -->
 
 {% endblock %}

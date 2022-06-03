@@ -1,5 +1,5 @@
 import json, os
-
+import string,random
 from flask_bootstrap import Bootstrap
 from flask import Flask, request, flash, render_template, jsonify, make_response, session, send_from_directory, \
     current_app, abort
@@ -172,16 +172,23 @@ def ajax():
     resp.headers['Access-Control-Allow-Origin'] = '*'
     resp.headers['Access-Control-Allow-Methods'] = 'GET,POST'
     resp.headers['Access-Control-Allow-Headers'] = 'x-requested-with,content-type'
-    resp.headers["Content-Disposition"] = "attachment;filename=FileName.mkv"
+    # resp.headers["Content-Disposition"] = "attachment;filename=FileName.mkv"
     # resp.headers['Content-type']='application/json'
+    random_list = string.digits + string.ascii_letters
+    random_var = "".join(random.choices(random_list, k=32))
+    # session["aes"]=random_var
     print(request.headers)
+    print(request.remote_addr)
     # print(json.loads(request.data.decode()))
     print(request.form.to_dict())
     p_key = 'MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC8JU1nBDZ5PgRNAxksTC/MlaBX37vjTH84ppzmuEpH7e6G43QXd7Zof8apIJ4efk6Uiw2/OJfkyMGDsAJTv/zWnuKm6UeyBYxtgP5JFGtTMKTBVuGzH8UzYWdPzybIOCmj55Qku3nYEZyro38dGhSFLSPaU3eoY1tblm5ZFJ+8ewIDAQAB  '
-
+    resp.data=request.form.to_dict()["kk1"]
     # key = RSA.importKey(p_key)
     # key = PKCS1_cipher.new(p_key)
     # print(key)
+    # resp.set_cookie("aes",random_var)
+    aes=request.cookies.get("session")
+    print(aes)
     return resp
 
 

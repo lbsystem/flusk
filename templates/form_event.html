@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+      <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
+</head>
+<body>
+    <form action="http://127.0.0.1:5000/ajax" method="post">
+        <input type="text" name="kk2"><br>
+        <input type="text" onchange=onc() id="inp2"><br>
+        <input type="text" name="kk1" hidden id="inp1">
+        <input type="submit">
+    </form>
+</body>
+<script>
+    let inp2 = document.querySelector("#inp2")
+    let inp1 = document.querySelector("#inp1")
+   function onc(){
+       console.log(CryptoJS.SHA1(inp1.value).toString())
+       inp1.value=CryptoJS.SHA1(inp2.value).toString()
+   }
+</script>
+</html>
+
+

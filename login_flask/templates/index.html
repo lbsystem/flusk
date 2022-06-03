@@ -9,7 +9,7 @@
             {% for category,message in get_flashed_messages(with_categories=true) %}
                 <div class="alert-{{ category }}" >{{ message }}</div>
             {% endfor %}
-            <form class="form form-horizontal" method="post" role="form">
+            <form class="form form-horizontal" method="post" role="form" action="/">
                 {{ form.hidden_tag() }}
                 {{ wtf.form_errors(form, hiddens="only") }}
 
@@ -47,6 +47,7 @@
             type:"post",
             data:{
                     json1:JSON.stringify(data)
+
             },
             success:res=>{
                 console.log(res)

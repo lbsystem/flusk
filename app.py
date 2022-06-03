@@ -1,7 +1,8 @@
 import json, os
 
 from flask_bootstrap import Bootstrap
-from flask import Flask, request,flash, render_template, jsonify, make_response, session, send_from_directory, current_app
+from flask import Flask, request, flash, render_template, jsonify, make_response, session, send_from_directory, \
+    current_app, abort
 from pymongo import MongoClient
 from Crypto.Cipher import AES
 from Crypto.Util.Padding import unpad
@@ -187,6 +188,14 @@ def ajax():
 def defualt(var):
     return var
 
+
+def login_required(func):
+    def wrapper(*args,**kwargs):
+        if session.get("name") is None:
+            abort(401)
+        else:
+            return func(*args,**kwargs)
+    return wrapper
 
 if __name__ == '__main__':
     app.run(debug=True)

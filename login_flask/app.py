@@ -1,15 +1,20 @@
 #!/usr/bin/python3
-from flask import flash,request
+from flask import flash,request,make_response
 
 from config import *
 from models import User
 from form import RegisterForm
 import hashlib
 import json
+
 hashstr="dasdsa2d"
 @app.route("/",methods=["GET","POST"])
+@login_required
 def index():
     form=RegisterForm()
+    # session["name"]="lbsystem2222"
+    # print(session.get("name"))
+    print(request.cookies)
     if form.validate_on_submit():
         pass
 
@@ -19,21 +24,26 @@ def index():
 def post():
 
     print("start11")
-    res1 = request.values.get("json1")
-    res1=json.loads(res1)
-    print(res1)
-    print(res1[2]['value'])
-    sha1=hashlib.sha1(hashstr.encode())
-    res1[2]['value']=sha1.update(res1[2]['value'].encode()).hexdigest()
-    try:
-        user=User(username=res1[1]['value'],password=res1[2]['value'],email=res1[3]['value'])
-        db.session.add(user)
-    except Exception as e:
-        print(e)
-    else:
-        db.session.commit()
+    # res1 = request.query_string
+    res1 = request.values.to_dict()
 
-    return "ok"
+    # res1=json.loads(res1)
+    print(res1)
+    # print(res1[2]['value'])
+    # sha1=hashlib.sha1(hashstr.encode())
+
+    # try:
+    #     user=User(username=res1[1]['value'],password=res1[2]['value'],email=res1[3]['value'])
+    #     db.session.add(user)
+    # except Exception as e:
+    #     print(e)
+    # else:
+    #     db.session.commit()
+    #
+    resp=make_response("ok")
+    resp.set_cookie("name","ajax")
+
+    return resp
 
 
 

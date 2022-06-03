@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-from flask import Flask,request,make_response,render_template,redirect,url_for
+from flask import Flask,request,make_response,render_template,redirect,url_for,abort,session
 from flask_bootstrap import Bootstrap
 from flask_session import Session
 from flask_sqlalchemy import SQLAlchemy
@@ -22,5 +22,11 @@ db=SQLAlchemy(app)
 Session(app)
 bootstrap = Bootstrap(app)
 
-
+def login_required(func):
+    def wrapper(*args,**kwargs):
+        if session.get("name") is None:
+            abort(401)
+        else:
+            return func(*args,**kwargs)
+    return wrapper
 

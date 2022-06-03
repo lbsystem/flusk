@@ -19,7 +19,8 @@ from Crypto.Cipher import PKCS1_v1_5 as PKCS1_cipher
 from Crypto.PublicKey import RSA
 
 
-
+appitem={}
+appitem.setdefault("login",False)
 
 client = MongoClient(host="192.168.1.32", port=27017)
 collections = client["javbus"]["company"]
@@ -189,11 +190,17 @@ def defualt(var):
     return var
 
 
+app_login="false"
+@app.route("/jinja2")
+def jinja2():
+    return render_template("01jinja2.html",app_login=app_login)
+
 def login_required(func):
     def wrapper(*args,**kwargs):
         if session.get("name") is None:
             abort(401)
         else:
+            appitem['login']=True
             return func(*args,**kwargs)
     return wrapper
 

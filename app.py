@@ -174,7 +174,7 @@ def ajax():
     resp.headers['Access-Control-Allow-Headers'] = 'x-requested-with,content-type'
     # resp.headers["Content-Disposition"] = "attachment;filename=FileName.mkv"
     # resp.headers['Content-type']='application/json'
-    random_list = string.digits + string.ascii_letters
+    random_list = string.digits + string.ascii_letters+"~!@#$%^&*?"
     random_var = "".join(random.choices(random_list, k=32))
     # session["aes"]=random_var
     print(request.headers)

@@ -2,12 +2,16 @@
 from flask import flash,request,make_response
 
 from config import *
-from models import User,ANS
+from models import Sqlclmfor,Agasn,ASN
 from form import RegisterForm
 import hashlib
 import json
 
 hashstr="dasdsa2d"
+
+res= Sqlclmfor.query.one()
+print("fasdfas",res.asn.ASN)
+
 @app.route("/",methods=["GET","POST"])
 @login_required
 def index():

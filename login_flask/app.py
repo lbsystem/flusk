@@ -2,20 +2,23 @@
 from flask import flash,request,make_response
 
 from config import *
-from models import Sqlclmfor,Agasn,ASN
+from models import m_to_a,Movie_name,Art_name
 from form import RegisterForm
 import hashlib
 import json
 
 hashstr="dasdsa2d"
 
-res= Sqlclmfor.query.one()
-print("fasdfas",res.asn.ASN)
+res= Art_name.query.filter(Art_name.name=="刘德华").all()
+for i in res:
+    for y in i.movies:
+        print(y.name)
 
 @app.route("/",methods=["GET","POST"])
 @login_required
 def index():
     form=RegisterForm()
+
     # session["name"]="lbsystem2222"
     # print(session.get("name"))
     print(request.cookies)
@@ -49,15 +52,15 @@ def post():
 
     return resp
 
-@app.route("/sql/<int:page_c>")
-def sql(page_c=None):
-    page_list=[1,2,3,4,5]
-    res=ANS.query.paginate(page=page_c,per_page=25)
-    if page_c>3 and page_c+3<res.pages:
-        page_list=[i for i in range(page_c-2,page_c+3)]
-    elif page_c+3>=res.pages:page_list=[i for i in range(res.pages-4,res.pages+1)]
-    print(res.pages)
-    return render_template("sql.html",sqldata=res,page_list=page_list)
+# @app.route("/sql/<int:page_c>")
+# def sql(page_c=None):
+#     page_list=[1,2,3,4,5]
+#     res=ANS.query.paginate(page=page_c,per_page=25)
+#     if page_c>3 and page_c+3<res.pages:
+#         page_list=[i for i in range(page_c-2,page_c+3)]
+#     elif page_c+3>=res.pages:page_list=[i for i in range(res.pages-4,res.pages+1)]
+#     print(res.pages)
+#     return render_template("sql.html",sqldata=res,page_list=page_list)
 
 
 

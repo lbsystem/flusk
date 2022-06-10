@@ -20,51 +20,33 @@
 <script src="https://cdn.bootcdn.net/ajax/libs/jsencrypt/3.2.1/jsencrypt.min.js"></script>
 <script>
 
-
-
-
-
-
     let put1= function put(){
         let name=$('#inp1').val()
         let formData= new FormData()
-
         let hash=sha1(name)
         name=encode(name)
-
         formData.append("src",name)
         formData.append("hash",hash)
-
         fetch("/",{
             method:"post",
             body:formData
         }).then((res)=>res.json()
-
-
         ).then(res=>
-
                 dis(res)
-
         )
     }
-
-
-
 
     function dis(res){
         $('#img_1').attr('src',`/static/img/${res.code}.jpg`)
         $('#h1_1').text(res.code)
           de_aes(res.encode)
     }
-
 </script>
 <script>
-
         function encode(data){
         var str=data
         var key  = "1111111111111111"
         var iv = "1111111111111111"
-
         key=CryptoJS.enc.Utf8.parse(key)
         iv=CryptoJS.enc.Utf8.parse(iv)
         var enctxt=CryptoJS.AES.encrypt(str,key,{
@@ -78,9 +60,6 @@
     function de_aes(data){
         console.log(typeof (data))
         console.log("data",data)
-
-
-
         let str=data
         let key  = "1111111111111111"
         let iv = "1111111111111111"
@@ -90,10 +69,8 @@
         let de_enctxt=CryptoJS.AES.decrypt(str,key,{
            iv:iv,
            mode:CryptoJS.mode.CBC,
-           padding:CryptoJS.pad.Pkcs7
-
+           padding:CryptoJS.pad.Pkcs7,
         }
-
         );
         let str5=de_enctxt.toString(CryptoJS.enc.Utf8)
         console.log("de..........",str5.toString())
@@ -111,5 +88,4 @@
         console.log(typeof (re_to_json))
         console.log(re_to_json)
 </script>
-
 </html>

@@ -14,8 +14,6 @@
     <orderEntry type="library" name="crypto-js" level="application" />
     <orderEntry type="library" name="crypto-js" level="application" />
     <orderEntry type="library" name="sha1" level="application" />
-    <orderEntry type="library" name="video.js" level="application" />
-    <orderEntry type="library" name="jsencrypt" level="application" />
     <orderEntry type="library" name="jquery" level="application" />
   </component>
   <component name="TemplatesService">
